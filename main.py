@@ -9,13 +9,14 @@ import sys
 
 parser = argparse.ArgumentParser(description="Downloads mp3's from https://downloads.khinsider.com.")
 parser.add_argument("url")
+parser.add_argument('--quality', choices=['high', 'low'], default='low', help='Set the quality of the music file to download (low = mp3, high = flac), defaults to low.')
 args = parser.parse_args()
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-url = args.url
-
+url     = args.url
+quality = -1 if args.quality == "high" else 0
 def validate_url(url):
   try:
     result = urlparse(url)
@@ -52,7 +53,7 @@ def return_song_pages(url):
 def return_song_link(url):
     contents = urllib.request.urlopen(url).read()
     soup     = BeautifulSoup(contents, 'html.parser')
-    link     = soup.find(class_="songDownloadLink").parent['href']
+    link     = soup.find_all(class_="songDownloadLink")[quality].parent['href']
     logger.debug("Yielding song link {}".format(link))
     return link
 
