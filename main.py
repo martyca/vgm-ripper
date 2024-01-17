@@ -1,3 +1,5 @@
+#!/usr/local/bin/env python
+
 import logging
 import urllib.request
 from bs4 import BeautifulSoup
