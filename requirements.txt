@@ -1,2 +1,2 @@
 beautifulsoup4==4.12.2
-soupsieve==2.4.1
+click==8.1.8
